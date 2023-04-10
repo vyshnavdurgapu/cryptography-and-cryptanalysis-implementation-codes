@@ -1,0 +1,53 @@
+import numpy as np
+
+def invmod(a):
+    for i in range(26):
+        if ((a%26)*(i%26))%26==1:
+            return i
+def mod(a):
+    while a<0:
+        a+=26
+    return a%26
+  
+def matinv(m):
+    minv = np.linalg.inv(m).tolist()
+    det = round(np.linalg.det(m))
+    detinv = invmod(det)
+    for i in range(len(minv)):
+        for j in range(len(minv[i])):
+            minv[i][j]=mod(round(minv[i][j]*det))
+            minv[i][j]=mod(minv[i][j]*detinv)
+    return minv
+
+pt = "july"
+m=2
+while len(pt)%m==0:
+    pt+='x'
+k=[[11,8],[3,7]]
+print(matinv(k))
+
+pta=[ord(ele)-97 for ele in pt]
+ptm = []
+for i in range(len(pta)//m):
+    ptm.append(pta[m*i:m*i+m])
+
+#ecryption
+ctm=[]
+ct=""
+for mat in ptm:
+    t=np.dot(mat,k).tolist()
+    t = [z%26 for z in t]
+    ctm.append(t)
+    for s in t:
+        ct+=chr(s+97)
+print(ct)
+
+#decryption
+pt=""
+kinv = matinv(k)
+for i in range(len(ctm)):
+    t = np.dot(ctm[i],kinv).tolist()
+    t=[ele%26 for ele in t]
+    for tt in t :
+        pt+=chr(tt+97)
+print(pt)

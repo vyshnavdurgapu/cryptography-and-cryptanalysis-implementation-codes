@@ -1,0 +1,27 @@
+import numpy as np
+from myunihill import invmod,mod,matrixinv
+
+m=2
+pt = "friday"
+ct = "pqcfku"
+pt=pt[:m**2]
+ct=ct[:m**2]
+pta = [ord(e)-97 for e in pt]
+# print(pta)
+ptm=[]
+for i in range(0,len(pt)//m):
+    ptm.append(pta[m*i:m*i+m])
+print(ptm)
+
+cta = [ord(e)-97 for e in ct]
+# print(pta)
+ctm=[]
+for i in range(0,len(ct)//m):
+    ctm.append(cta[m*i:m*i+m])
+print(ctm)
+
+k=np.dot(matrixinv(ptm),ctm).tolist()
+for i in range (len(k)):
+    for j in range(len(k[i])):
+        k[i][j]%=26
+print(k)
